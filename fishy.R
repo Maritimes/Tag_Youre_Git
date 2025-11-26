@@ -14,7 +14,7 @@ create_fish <- function(x_pos, y_pos, size = 1, flip = FALSE) {
     body_y <- y_pos + size * 0.3 * sin(theta)
 
     # Tail
-    tail_x <- c(x_pos - size * 0.75, x_pos - size * 1.3, x_pos - size * 0.75)
+    tail_x <- c(x_pos - size * 1.3, x_pos - size * 0.75, x_pos - size * 1.3)
     tail_y <- c(y_pos - size * 0.2, y_pos, y_pos + size * 0.2)
 
     # Top fin
@@ -114,12 +114,12 @@ p <- ggplot() +
     geom_polygon(
         data = fish_data[fish_data$part == "fin_top", ],
         aes(x = x, y = y, group = frame),
-        fill = "purple", color = "darkorange", size = 1
+        fill = "pink", color = "darkorange", size = 1
     ) +
     geom_polygon(
         data = fish_data[fish_data$part == "fin_bottom", ],
         aes(x = x, y = y, group = frame),
-        fill = "purple", color = "darkorange", size = 1
+        fill = "yellow", color = "darkorange", size = 1
     ) +
     # Eye
     geom_point(
