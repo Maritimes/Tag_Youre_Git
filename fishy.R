@@ -53,20 +53,29 @@ create_fish <- function(x_pos, y_pos, size = 1, flip = FALSE) {
 # Create animation frames
 n_frames <- 100
 fish_data <- data.frame()
+fish_data2 <- data.frame()
 
 for (i in 1:n_frames) {
     # Fish swims in a wavy pattern
     x <- i * 0.15
     y <- 5 + sin(i * 0.3) * 2
-
+    y2 <- 5 + cos(i * 0.3) * 2
+    
     # Tail wag effect
     tail_offset <- sin(i * 0.5) * 0.2
-
+    tail_offset2 <- cos(i * 0.5) * 0.2
+    
     fish <- create_fish(x, y, size = 1)
     fish$frame <- i
     fish$tail_wag <- tail_offset
 
     fish_data <- rbind(fish_data, fish)
+
+    fish2 <- create_fish(x, y2, size = 1)
+    fish2$frame <- i
+    fish2$tail_wag <- tail_offset2
+    
+    fish_data2 <- rbind(fish_data2, fish2)
 }
 
 # Add bubbles
@@ -126,6 +135,36 @@ p <- ggplot() +
         data = fish_data[fish_data$part == "eye", ],
         aes(x = x, y = y, group = frame),
         size = 3, color = "black"
+    ) +
+  
+    # Fish body
+    geom_polygon(
+      data = fish_data2[fish_data2$part == "body", ],
+      aes(x = x, y = y, group = frame),
+      fill = "green", color = "darkorange", size = 1
+    ) +
+    # Tail
+    geom_polygon(
+      data = fish_data2[fish_data2$part == "tail", ],
+      aes(x = x, y = y, group = frame),
+      fill = "green", color = "darkorange", size = 1
+    ) +
+    # Fins
+    geom_polygon(
+      data = fish_data2[fish_data2$part == "fin_top", ],
+      aes(x = x, y = y, group = frame),
+      fill = "green", color = "darkorange", size = 1
+    ) +
+    geom_polygon(
+      data = fish_data2[fish_data2$part == "fin_bottom", ],
+      aes(x = x, y = y, group = frame),
+      fill = "green", color = "darkorange", size = 1
+    ) +
+    # Eye
+    geom_point(
+      data = fish_data2[fish_data2$part == "eye", ],
+      aes(x = x, y = y, group = frame),
+      size = 3, color = "black"
     ) +
     coord_fixed(xlim = c(0, 15), ylim = c(0, 10)) +
     # Animate
