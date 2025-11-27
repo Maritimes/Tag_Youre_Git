@@ -10,24 +10,32 @@ library(gganimate)
 create_fish <- function(x_pos, y_pos, size = 1, flip = FALSE) {
     # Fish body (ellipse)
     theta <- seq(0, 2 * pi, length.out = 100)
-    body_x <- x_pos + size * 0.5 * cos(theta) * 1.5
+    body_x <- x_pos + size * 0.5 * cos(theta) * 5.2
     body_y <- y_pos + size * 0.3 * sin(theta)
 
     # Tail
     tail_x <- c(x_pos - size * 0.75, x_pos - size * 1.3, x_pos - size * 0.75)
     tail_y <- c(y_pos - size * 0.2, y_pos, y_pos + size * 0.2)
+    
+    tail_x <- c(x_pos - size * 2, x_pos - size * 2.2, x_pos - size * 2.7, x_pos - size * 2.3)
+    tail_y <- c(y_pos, y_pos + size * 0.7, y_pos + size * 0.7, y_pos)
 
     # Top fin
     fin_top_x <- c(x_pos + size * 0.2, x_pos + size * 0.3, x_pos + size * 0.4)
     fin_top_y <- c(y_pos, y_pos + size * 0.5, y_pos)
+    
+    fin_top_x <- c(x_pos + size * 2.4, x_pos + size * 2.4, x_pos + size * 1.4, x_pos + size * 1.4)
+    fin_top_y <- c(y_pos - size * 0.25, y_pos + size * 0.25, y_pos + size * 0.25, y_pos - size * 0.25)
 
     # Bottom fin
     fin_bottom_x <- c(x_pos - size * 0.1, x_pos, x_pos + size * 0.1)
     fin_bottom_y <- c(y_pos, y_pos - size * 0.4, y_pos)
-
+    
+    fin_bottom_x <- c(x_pos - size * 0, x_pos, x_pos + size * 0)
+    fin_bottom_y <- c(y_pos, y_pos - size * 0.4, y_pos + size * 0.4)
     # Eye
-    eye_x <- x_pos + size * 0.4
-    eye_y <- y_pos + size * 0.1
+    eye_x <- x_pos + size * 2.4
+    eye_y <- y_pos + size * 0
 
     if (flip) {
         body_x <- -body_x + 2 * x_pos
@@ -102,30 +110,30 @@ p <- ggplot() +
     geom_polygon(
         data = fish_data[fish_data$part == "body", ],
         aes(x = x, y = y, group = frame),
-        fill = "pink", color = "darkorange", size = 1
+        fill = "yellow", color = "yellow", size = 1
     ) +
     # Tail
     geom_polygon(
         data = fish_data[fish_data$part == "tail", ],
         aes(x = x, y = y, group = frame),
-        fill = "yellow", color = "darkorange", size = 1
+        fill = "yellow", color = "yellow", size = 1
     ) +
     # Fins
     geom_polygon(
         data = fish_data[fish_data$part == "fin_top", ],
         aes(x = x, y = y, group = frame),
-        fill = "purple", color = "darkorange", size = 1
+        fill = "black", color = "black", size = 1
     ) +
     geom_polygon(
         data = fish_data[fish_data$part == "fin_bottom", ],
         aes(x = x, y = y, group = frame),
-        fill = "purple", color = "darkorange", size = 1
+        fill = "purple", color = "black", size = 1
     ) +
     # Eye
     geom_point(
         data = fish_data[fish_data$part == "eye", ],
         aes(x = x, y = y, group = frame),
-        size = 3, color = "black"
+        size = 8, color = "black"
     ) +
     coord_fixed(xlim = c(0, 15), ylim = c(0, 10)) +
     # Animate
@@ -138,4 +146,5 @@ animate(p,
 )
 
 print("Animation saved as 'swimming_fish.gif'!")
+
 
